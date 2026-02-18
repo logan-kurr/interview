@@ -1,4 +1,4 @@
-# Playwright Automation Framework Exercise
+# ~~Playwright~~ Selenium Automation Framework Exercise
 
 ## Getting Started
 1. Fork the repository
