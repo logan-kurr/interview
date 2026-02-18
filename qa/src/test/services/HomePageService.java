@@ -3,6 +3,7 @@ package test.services;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import test.model.StayDetails;
 import test.pages.HomePage;
 
 import static test.pages.HomePage.HOME_PAGE_URL;
@@ -30,10 +31,10 @@ public class HomePageService {
      *
      * @param driver
      */
-    public void stepSelectRoomType(WebDriver driver, String roomType) {
-        log.info("Selecting specified Room Type = '{}'...", roomType);
+    public void stepSelectRoomType(WebDriver driver, StayDetails stayDetails) {
+        log.info("Selecting specified Room Type = '{}'...", stayDetails.getRoomType().getValue());
         new HomePage(driver)
-                .performBookNow(driver)
-                .performSelectRoomType(driver, roomType);
+                .performClickBookNow(driver)
+                .performSelectRoomType(driver, stayDetails.getRoomType());
     }
 }

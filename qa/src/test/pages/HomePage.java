@@ -8,6 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import test.helper.ClickHelper;
 import test.helper.WaitHelper;
+import test.model.StayDetails;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class HomePage {
 
     // ********* Availability Section ********
     @FindBy(xpath = "//section[@id='booking']//a[text()='Check Availability']")
-    private List<WebElement> checkAvailabilityBtn;
+    private WebElement checkAvailabilityBtn;
 
     // ********* Rooms Section ********
     @FindBy(id = "rooms")
@@ -65,15 +66,15 @@ public class HomePage {
         // verifies pageTitle
         Assert.assertEquals(HOME_PAGE_TITLE, driver.getTitle());
 
-        // ensures visibility of
+        // ensures visibility of Hero Section
         WaitHelper.isElementVisible(driver, heroSection);
         return new HomePage(driver);
     }
 
-    public HomePage performBookNow(WebDriver driver) {
+    public HomePage performClickBookNow(WebDriver driver) {
 
         // clicks 'Book Now' button
-        WaitHelper.wait(Long.valueOf(5000));
+        WaitHelper.isElementVisible(driver, bookNowBtn);
         ClickHelper.click(driver, bookNowBtn);
 
         // ensures visibility of Rooms
@@ -81,21 +82,22 @@ public class HomePage {
         return new HomePage(driver);
     }
 
-    public ReservationPage performSelectRoomType(WebDriver driver, String roomType) {
+    public ReservationPage performSelectRoomType(WebDriver driver, StayDetails.RoomType roomType) {
 
-        switch (roomType.toUpperCase()) {
-            case "SINGLE":
+        switch (roomType) {
+            case SINGLE:
                 ClickHelper.click(driver, singleBookBtn);
-                return new ReservationPage(driver);
-            case "DOUBLE":
+                break;
+            case DOUBLE:
                 ClickHelper.click(driver, doubleBookBtn);
-                return new ReservationPage(driver);
-            case "SUITE":
+                break;
+            case SUITE:
                 ClickHelper.click(driver, suiteBookBtn);
-                return new ReservationPage(driver);
+                break;
             default:
                 throw new RuntimeException(
-                        String.format("Specified Room Type = '%s' Does Not Exist/Not Available!", roomType));
+                        String.format("Specified Room Type = '%s' Does Not Exist/Not Available!", roomType.getValue()));
         }
+        return new ReservationPage(driver);
     }
 }
