@@ -15,7 +15,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static test.pages.HomePage.HOME_PAGE_URL;
 
 
-public class CreatingBookingAPIFlow {
+public class FullBookingAPIFlow {
 
     String baseURL = "https://restful-booker.herokuapp.com";
     String adminURL = "https://automationintesting.online/admin";

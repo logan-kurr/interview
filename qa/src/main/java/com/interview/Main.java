@@ -10,10 +10,12 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
 
-        log.info("Starting 'Booking Flow End to End'");
+        log.info("Starting 'Booking Flow End to End'...");
         FullBookingFlow fullBookingFlow = new FullBookingFlow();
         fullBookingFlow.startUp();
         fullBookingFlow.testSelectRoomType();
         fullBookingFlow.cleanUp();
+
+
     }
 }

@@ -2,7 +2,6 @@ package test.model;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Collections;
 
 public class StayDetails {
 

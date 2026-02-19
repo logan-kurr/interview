@@ -2,10 +2,7 @@ package test.tests.uiTests;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testng.annotations.*;
-import test.helper.WaitHelper;
 import test.model.StayDetails;
 import test.services.HomePageService;
 import org.openqa.selenium.WebDriver;
@@ -14,15 +11,13 @@ import test.services.ReservationPageService;
 
 public class FullBookingFlow  {
 
-    private static final Logger log = LoggerFactory.getLogger(WaitHelper.class.getSimpleName());
-
     private final HomePageService homePageService = new HomePageService();
     private final ReservationPageService reservationPageService = new ReservationPageService();
 
     private final String ROOM_TYPE = "SINGLE";
 
-    private final String CHECK_IN_DATE = "2026-02-18";
-    private final String CHECK_OUT_DATE = "2026-02-19";
+    private final String CHECK_IN_DATE = "2026-03-27";
+    private final String CHECK_OUT_DATE = "2026-03-28";
 
     private final String FIRST_NAME = "John";
     private final String LAST_NAME = "Smith";
@@ -53,12 +48,14 @@ public class FullBookingFlow  {
 
     @Test(description = "Select Check-In/Check-Out Dates", dependsOnMethods = "testSelectRoomType")
     public void testSelectStayDates() {
+
         reservationPageService.stepVerifyReservationPage(driver, stayDetails.getRoomType());
         reservationPageService.stepReserveAvailableDates(driver, stayDetails);
     }
 
-    @Test(description = "Enter Guest Details", dependsOnMethods = "testSelectStayDates")
-    public void testEnterGuestDetails() {
+    @Test(description = "Enter Guest Details and Submit", dependsOnMethods = "testSelectStayDates")
+    public void testEnterGuestDetailsAndSubmit() {
+
         reservationPageService.stepEnterUserDetailsAndSubmit(driver, stayDetails);
     }
 
