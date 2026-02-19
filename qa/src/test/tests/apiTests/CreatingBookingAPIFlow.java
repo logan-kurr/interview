@@ -1,18 +1,25 @@
 package test.tests.apiTests;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.json.JSONObject;
+import org.openqa.selenium.Cookie;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
+import static test.pages.HomePage.HOME_PAGE_URL;
 
 
 public class CreatingBookingAPIFlow {
 
     String baseURL = "https://restful-booker.herokuapp.com";
+    String adminURL = "https://automationintesting.online/admin";
+
     String authToken;
     int bookingID;
 
@@ -47,9 +54,9 @@ public class CreatingBookingAPIFlow {
         bookingJSONObj.put("lastname", "Smith");
         bookingJSONObj.put("totalprice", 250);
         bookingJSONObj.put("depositpaid", true);
-            JSONObject datesJsonObj = new JSONObject();
-            datesJsonObj.put("checkin", "2026-04-10");
-            datesJsonObj.put("checkout", "2026-04-11");
+        JSONObject datesJsonObj = new JSONObject();
+        datesJsonObj.put("checkin", "2026-04-10");
+        datesJsonObj.put("checkout", "2026-04-11");
         bookingJSONObj.put("bookingdates", datesJsonObj);
         bookingJSONObj.put("additionalneeds", "Late checkout please");
 
@@ -75,11 +82,11 @@ public class CreatingBookingAPIFlow {
 
         Response response =
                 given()
-                .contentType(ContentType.JSON)
-                .cookie("token", authToken)
-                .header("Accept", "application/json")
-                .when()
-                .get(baseURL + "/booking/" + bookingID);
+                        .contentType(ContentType.JSON)
+                        .cookie("token", authToken)
+                        .header("Accept", "application/json")
+                        .when()
+                        .get(baseURL + "/booking/" + bookingID);
 
         response.then()
                 .log()
@@ -132,5 +139,29 @@ public class CreatingBookingAPIFlow {
                 .all()
                 .assertThat()
                 .statusCode(201);
+    }
+
+    /**
+     * || BONUS BONUS BONUS ||
+     */
+    @Test(description = "Verifies Admin Authentication", dependsOnMethods = "testDeleteBooking")
+    public void testAdminAuthentication() {
+
+        // spins up new WebDriver
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+        driver.get(HOME_PAGE_URL);
+
+        // sets authentication cookie
+        driver.manage().addCookie(new Cookie("token", authToken));
+
+        // navigates to Admin page
+        driver.get(adminURL);
+
+        // TODO: Add ADMIN Page Verifications
+
+        // ensures proper closure/cleanup of WebDriver
+        driver.close();
+        driver.quit();
     }
 }
