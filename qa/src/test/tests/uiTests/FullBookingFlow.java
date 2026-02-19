@@ -1,4 +1,4 @@
-package test.tests;
+package test.tests.uiTests;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -21,8 +21,8 @@ public class FullBookingFlow  {
 
     private final String ROOM_TYPE = "SINGLE";
 
-    private final String CHECK_IN_DATE = "04/10/2026";
-    private final String CHECK_OUT_DATE = "04/11/2026";
+    private final String CHECK_IN_DATE = "2026-02-18";
+    private final String CHECK_OUT_DATE = "2026-02-19";
 
     private final String FIRST_NAME = "John";
     private final String LAST_NAME = "Smith";

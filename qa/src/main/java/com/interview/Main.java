@@ -2,7 +2,7 @@ package main.java.com.interview;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import test.tests.FullBookingFlow;
+import test.tests.uiTests.FullBookingFlow;
 
 public class Main {
 

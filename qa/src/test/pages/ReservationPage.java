@@ -4,18 +4,26 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.asserts.SoftAssert;
 import test.helper.ClickHelper;
 import test.helper.WaitHelper;
 import test.model.StayDetails;
 
+
 public class ReservationPage {
+
+    private static final Logger log = LoggerFactory.getLogger(ReservationPage.class.getSimpleName());
 
     public static final String RESERVATION_PAGE_URL = "https://automationintesting.online/reservation/";
 
     public static final String CONFIRMATION_TITLE = "Booking Confirmed";
     public static final String CONFIRMATION_MESSAGE = "Your booking has been confirmed for the following dates:";
-    public static final String CONFIRMATION_DATES = "%s - %s";
+
+    public static final String DATE_FORMAT = "MM/dd/yyyy";
+    public static final String CONFIRMATION_DATE_FORMAT = "yyyy-MM-dd'";
 
     // ********* Room Description Section ********
     @FindBy(xpath = "//img[@alt='Room Image']")
@@ -43,7 +51,7 @@ public class ReservationPage {
     @FindBy(xpath = "//div[contains(@class,'booking-card')]/div[@class='card-body']")
     private WebElement confirmationMessage;
 
-    @FindBy(xpath = "//div[contains(@class,'booking-card')]//a[text()='Return Home']")
+    @FindBy(xpath = "//div[contains(@class,'booking-card')]//a[text()='Return home']")
     private WebElement returnHomeBtn;
 
 
@@ -90,12 +98,15 @@ public class ReservationPage {
 
     public ReservationPage performVerifyConfirmation(WebDriver driver, StayDetails stayDetails) {
 
+        WaitHelper.isElementVisible(driver, confirmationMessage);
+        WaitHelper.isConditionSuccess(driver, ExpectedConditions.textToBePresentInElement(confirmationMessage, CONFIRMATION_TITLE), WaitHelper.DEFAULT_WAIT);
+
         // verifies all Confirmation Details are accurate
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertTrue(confirmationMessage.getText().contains(CONFIRMATION_TITLE), String.format("Confirmation Title does not Equal = %s", CONFIRMATION_TITLE));
         softAssert.assertTrue(confirmationMessage.getText().contains(CONFIRMATION_MESSAGE), String.format("Confirmation Message does not Contain = %s", CONFIRMATION_MESSAGE));
-        softAssert.assertTrue(confirmationMessage.getText().contains(String.format(
-                CONFIRMATION_DATES, stayDetails.getCheckInDate(), stayDetails.getCheckOutDate())));
+        softAssert.assertTrue(confirmationMessage.getText().contains(stayDetails.getCheckInDate()));
+        softAssert.assertTrue(confirmationMessage.getText().contains(stayDetails.getCheckOutDate()));
         softAssert.assertAll();
 
         // clicks 'Return Home' button

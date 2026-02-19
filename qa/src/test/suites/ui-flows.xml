@@ -3,7 +3,7 @@
 
     <test name="Full Booking Flow">
         <classes>
-            <class name="test.tests.FullBookingFlow"/>
+            <class name="test.tests.uiTests.FullBookingFlow"/>
         </classes>
     </test>
 </suite>
