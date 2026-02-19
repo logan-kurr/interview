@@ -1,12 +1,15 @@
 package test.tests.uiTests;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Test;
 import test.helper.DateHelper;
 import test.model.StayDetails;
 import test.services.HomePageService;
-import org.openqa.selenium.WebDriver;
 import test.services.ReservationPageService;
 
 
