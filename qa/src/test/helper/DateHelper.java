@@ -4,9 +4,10 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 
-import static test.pages.ReservationPage.CONFIRMATION_DATE_FORMAT;
 
 public class DateHelper {
+
+    public static final String CONFIRMATION_DATE_FORMAT = "yyyy-MM-dd";
 
     /**
      * Parses provided Date and returns Year
@@ -39,6 +40,15 @@ public class DateHelper {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(CONFIRMATION_DATE_FORMAT);
         LocalDate specificDate = LocalDate.parse(date, formatter);
         return specificDate.getDayOfMonth();
+    }
+
+    /**
+     * Retrieves the Current Date with the Default Format
+     * @return
+     */
+    public static String getCurrentDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(CONFIRMATION_DATE_FORMAT);
+        return LocalDate.now().format(formatter);
     }
 
     /**

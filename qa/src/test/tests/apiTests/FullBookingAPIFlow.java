@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import test.helper.DateHelper;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
@@ -22,6 +23,14 @@ public class FullBookingAPIFlow {
 
     String authToken;
     int bookingID;
+
+    String firstName = "John";
+    String lastName = "Smith";
+    int totalPrice = 250;
+    boolean depositPaid = true;
+    String checkInDate = "";
+    String checkOutDate = "";
+    String additionalNeeds = "Late checkout please";
 
     JSONObject bookingJSONObj;
 
@@ -50,15 +59,19 @@ public class FullBookingAPIFlow {
     public void testCreateBooking() {
 
         bookingJSONObj = new JSONObject();
-        bookingJSONObj.put("firstname", "John");
-        bookingJSONObj.put("lastname", "Smith");
-        bookingJSONObj.put("totalprice", 250);
-        bookingJSONObj.put("depositpaid", true);
+        bookingJSONObj.put("firstname", firstName);
+        bookingJSONObj.put("lastname", lastName);
+        bookingJSONObj.put("totalprice", totalPrice);
+        bookingJSONObj.put("depositpaid", depositPaid);
+
+        checkInDate = DateHelper.getFutureDate(DateHelper.getCurrentDate(), 7);
+        checkOutDate = DateHelper.getFutureDate(DateHelper.getCurrentDate(), 7);
         JSONObject datesJsonObj = new JSONObject();
-        datesJsonObj.put("checkin", "2026-04-10");
-        datesJsonObj.put("checkout", "2026-04-11");
+        datesJsonObj.put("checkin", checkInDate);
+        datesJsonObj.put("checkout", checkOutDate);
+
         bookingJSONObj.put("bookingdates", datesJsonObj);
-        bookingJSONObj.put("additionalneeds", "Late checkout please");
+        bookingJSONObj.put("additionalneeds", additionalNeeds);
 
         Response response = given()
                 .contentType(ContentType.JSON)
@@ -93,18 +106,27 @@ public class FullBookingAPIFlow {
                 .all()
                 .assertThat()
                 .statusCode(200)
-                .body("firstname", equalTo("John"));
+                .body("firstname", equalTo(firstName))
+                .body("lastname", equalTo(lastName))
+                .body("totalprice", equalTo(totalPrice))
+                .body("depositpaid", equalTo(depositPaid))
+                .body("bookingdates.checkin", equalTo(checkInDate))
+                .body("bookingdates.checkout", equalTo(checkOutDate))
+                .body("additionalneeds", equalTo(additionalNeeds));
     }
 
     @Test(description = "PUT | Updates an existing Booking", dependsOnMethods = "testRetrieveBooking")
     public void testUpdateBooking() {
 
         // updates dates and additional request
+        checkInDate = DateHelper.getFutureDate(DateHelper.getCurrentDate(), 14);
+        checkOutDate = DateHelper.getFutureDate(DateHelper.getCurrentDate(), 15);
         JSONObject datesJsonObj = new JSONObject();
-        datesJsonObj.put("checkin", "2026-04-17");
-        datesJsonObj.put("checkout", "2026-04-18");
+        datesJsonObj.put("checkin", checkInDate);
+        datesJsonObj.put("checkout", checkOutDate);
+        additionalNeeds = "Apologies can I get a drink package as well!";
         bookingJSONObj.put("bookingdates", datesJsonObj);
-        bookingJSONObj.put("additionalneeds", "Apologies can I get a drink package as well");
+        bookingJSONObj.put("additionalneeds", additionalNeeds);
 
         Response response = given()
                 .contentType(ContentType.JSON)
@@ -119,7 +141,10 @@ public class FullBookingAPIFlow {
                 .log()
                 .all()
                 .assertThat()
-                .statusCode(200);
+                .statusCode(200)
+                .body("bookingdates.checkin", equalTo(checkInDate))
+                .body("bookingdates.checkout", equalTo(checkOutDate))
+                .body("additionalneeds", equalTo(additionalNeeds));
     }
 
     @Test(description = "DELETE | Deletes a Booking", dependsOnMethods = "testUpdateBooking")

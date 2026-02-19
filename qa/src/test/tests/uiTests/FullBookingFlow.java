@@ -3,6 +3,7 @@ package test.tests.uiTests;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.*;
+import test.helper.DateHelper;
 import test.model.StayDetails;
 import test.services.HomePageService;
 import org.openqa.selenium.WebDriver;
@@ -13,9 +14,6 @@ public class FullBookingFlow  {
 
     private final HomePageService homePageService = new HomePageService();
     private final ReservationPageService reservationPageService = new ReservationPageService();
-
-    private final String CHECK_IN_DATE = "2026-03-27";
-    private final String CHECK_OUT_DATE = "2026-03-28";
 
     private final String FIRST_NAME = "John";
     private final String LAST_NAME = "Smith";
@@ -32,8 +30,10 @@ public class FullBookingFlow  {
         driver  = new ChromeDriver();
 
         // generate stayDetails obj
-        stayDetails = new StayDetails(StayDetails.RoomType.valueOf(roomType), CHECK_IN_DATE,
-                CHECK_OUT_DATE, FIRST_NAME, LAST_NAME, EMAIL, PHONE);
+        String checkInDate = DateHelper.getFutureDate(DateHelper.getCurrentDate(), 7);
+        String checkOutDate = DateHelper.getFutureDate(DateHelper.getCurrentDate(), 8);
+        stayDetails = new StayDetails(StayDetails.RoomType.valueOf(roomType), checkInDate, checkOutDate,
+                FIRST_NAME, LAST_NAME, EMAIL, PHONE);
     }
 
 

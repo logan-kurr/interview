@@ -22,8 +22,6 @@ public class ReservationPage {
     public static final String CONFIRMATION_TITLE = "Booking Confirmed";
     public static final String CONFIRMATION_MESSAGE = "Your booking has been confirmed for the following dates:";
 
-    public static final String CONFIRMATION_DATE_FORMAT = "yyyy-MM-dd";
-
     // ********* Room Description Section ********
     @FindBy(xpath = "//img[@alt='Room Image']")
     private WebElement roomImage;

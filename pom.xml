@@ -6,16 +6,17 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>
+        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <selenium.version>4.13.0</selenium.version>
-        <testng.version>7.6.1</testng.version>
         <maven-dependency-plugin.version>3.6.0</maven-dependency-plugin.version>
-        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
-        <wdm.version>5.6.4</wdm.version>
+        <maven-surefire-plugin.version>3.1.0</maven-surefire-plugin.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <rest-assured.version>4.3.2</rest-assured.version>
+        <selenium.version>4.13.0</selenium.version>
         <slf4j-api.version>2.0.7</slf4j-api.version>
+        <testng.version>7.6.1</testng.version>
+        <wdm.version>5.6.4</wdm.version>
     </properties>
 
     <dependencies>
@@ -91,6 +92,17 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+                <configuration>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
+                    </suiteXmlFiles>
+                </configuration>
             </plugin>
         </plugins>
     </build>
