@@ -17,8 +17,8 @@ import static test.pages.HomePage.HOME_PAGE_URL;
 
 public class FullBookingAPIFlow {
 
-    String baseURL = "https://restful-booker.herokuapp.com";
-    String adminURL = "https://automationintesting.online/admin";
+    private final String BASE_URL = "https://restful-booker.herokuapp.com";
+    private final String ADMIN_URL = "https://automationintesting.online/admin";
 
     String authToken;
     int bookingID;
@@ -36,7 +36,7 @@ public class FullBookingAPIFlow {
                 .contentType(ContentType.JSON)
                 .body(jsonObj.toString())
                 .when()
-                .post(baseURL + "/auth");
+                .post(BASE_URL + "/auth");
 
         response.then()
                 .log()
@@ -67,7 +67,7 @@ public class FullBookingAPIFlow {
                 .header("Accept", "application/json")
                 .body(bookingJSONObj.toString())
                 .when()
-                .post(baseURL + "/booking");
+                .post(BASE_URL + "/booking");
 
         response.then()
                 .log()
@@ -86,7 +86,7 @@ public class FullBookingAPIFlow {
                         .cookie("token", authToken)
                         .header("Accept", "application/json")
                         .when()
-                        .get(baseURL + "/booking/" + bookingID);
+                        .get(BASE_URL + "/booking/" + bookingID);
 
         response.then()
                 .log()
@@ -113,7 +113,7 @@ public class FullBookingAPIFlow {
                 .header("Accept", "application/json")
                 .body(bookingJSONObj.toString())
                 .when()
-                .put(baseURL + "/booking/" + bookingID);
+                .put(BASE_URL + "/booking/" + bookingID);
 
         response.then()
                 .log()
@@ -132,7 +132,7 @@ public class FullBookingAPIFlow {
                         .cookie("token", authToken)
                         .header("Accept", "application/json")
                         .when()
-                        .delete(baseURL + "/booking/" + bookingID);
+                        .delete(BASE_URL + "/booking/" + bookingID);
 
         response.then()
                 .log()
@@ -156,7 +156,7 @@ public class FullBookingAPIFlow {
         driver.manage().addCookie(new Cookie("token", authToken));
 
         // navigates to Admin page
-        driver.get(adminURL);
+        driver.get(ADMIN_URL);
 
         // TODO: Add ADMIN Page Verifications
 

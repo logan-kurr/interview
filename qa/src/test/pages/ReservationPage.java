@@ -6,8 +6,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testng.asserts.SoftAssert;
 import test.helper.ClickHelper;
 import test.helper.WaitHelper;
@@ -21,14 +19,9 @@ import static test.helper.DateHelper.*;
 
 public class ReservationPage {
 
-    private static final Logger log = LoggerFactory.getLogger(ReservationPage.class.getSimpleName());
-
-    public static final String RESERVATION_PAGE_URL = "https://automationintesting.online/reservation/";
-
     public static final String CONFIRMATION_TITLE = "Booking Confirmed";
     public static final String CONFIRMATION_MESSAGE = "Your booking has been confirmed for the following dates:";
 
-    public static final String DATE_FORMAT = "MM/dd/yyyy";
     public static final String CONFIRMATION_DATE_FORMAT = "yyyy-MM-dd";
 
     // ********* Room Description Section ********
@@ -74,13 +67,24 @@ public class ReservationPage {
         PageFactory.initElements(driver, this);
     }
 
+    /**
+     * Verifies the Room Details page loads as expected
+     * @param driver
+     * @return
+     */
     public ReservationPage performVerifyInitialLoad(WebDriver driver) {
 
-        // ensures visibility of Room Image & Description
+        // ensures visibility of Room Image
         WaitHelper.isElementVisible(driver, roomImage);
         return new ReservationPage(driver);
     }
 
+    /**
+     *
+     * @param driver
+     * @param stayDetails: stayDetails object containing all client/room info
+     * @return
+     */
     public ReservationPage performSelectDates(WebDriver driver, StayDetails stayDetails) {
 
         // selects Check-In & Check-Out dates
@@ -96,36 +100,38 @@ public class ReservationPage {
             correctDate = monthAndYearTxt.getText().toUpperCase().contains(String.format("%s %s", month, year));
         }
 
+        // selects dates on calendar
         WebElement startDateCell = calendarDays.get(parseDay(stayDetails.getCheckInDate()) - 1);
         WebElement endDateCell = calendarDays.get(parseDay(stayDetails.getCheckOutDate()) - 1);
         selectDates(driver, startDateCell, endDateCell);
         return new ReservationPage(driver);
     }
 
+    /**
+     * Enters all necessary client/contact info for Room Reservation
+     * @param driver
+     * @param stayDetails: stayDetails object containing all client/room info
+     * @return
+     */
     public ReservationPage performEnterUserDetails(WebDriver driver, StayDetails stayDetails) {
 
         // enters all necessary user details for booking
-        WaitHelper.isElementVisible(driver, firstNameField);
-        ClickHelper.click(driver, firstNameField);
-        firstNameField.clear();
-        firstNameField.sendKeys(stayDetails.getFirstName());
+        ClickHelper.clearAndSendKeys(driver, firstNameField, stayDetails.getFirstName());
+        ClickHelper.clearAndSendKeys(driver, lastNameField, stayDetails.getLastName());
+        ClickHelper.clearAndSendKeys(driver, emailField, stayDetails.getEmail());
+        ClickHelper.clearAndSendKeys(driver, phoneField, stayDetails.getPhoneNumber());
 
-        ClickHelper.click(driver, lastNameField);
-        lastNameField.clear();
-        lastNameField.sendKeys(stayDetails.getLastName());
-
-        ClickHelper.click(driver, emailField);
-        emailField.clear();
-        emailField.sendKeys(stayDetails.getEmail());
-
-        ClickHelper.click(driver, phoneField);
-        phoneField.clear();
-        phoneField.sendKeys(stayDetails.getPhoneNumber());
-
+        // clicks the reserve button
         ClickHelper.click(driver, reserveNowBtn);
         return new ReservationPage(driver);
     }
 
+    /**
+     * Verifies room Confirmation and Dates
+     * @param driver
+     * @param stayDetails: stayDetails object containing all client/room info
+     * @return
+     */
     public ReservationPage performVerifyConfirmation(WebDriver driver, StayDetails stayDetails) {
 
         WaitHelper.isElementVisible(driver, confirmationMessage);
@@ -145,6 +151,11 @@ public class ReservationPage {
         return new ReservationPage(driver);
     }
 
+    /**
+     * Clicks the 'Reserve' button on the Reservation page
+     * @param driver
+     * @return
+     */
     public ReservationPage performClickReserve(WebDriver driver) {
 
         // clicks 'Reserve Now' button

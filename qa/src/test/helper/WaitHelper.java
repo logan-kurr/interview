@@ -30,7 +30,7 @@ public class WaitHelper {
     }
 
     /**
-     * Wait for specified condition within specific timeout
+     * Wait for specified Condition within specific timeout
      *
      * @param condition
      * @param driver

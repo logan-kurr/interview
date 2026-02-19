@@ -16,9 +16,10 @@ public class ReservationPageService {
      * Verifies Room Reservation Page has been navigated to, and is Correct
      *
      * @param driver
+     * @param roomType: Specified Room Type to be verified against
      */
     public void stepVerifyReservationPage(WebDriver driver, StayDetails.RoomType roomType) {
-        log.info("Verifying correct Room Type...");
+        log.info("Verifying correct Room Type = {}...", roomType.getValue());
 
         switch (roomType) {
             case SINGLE:
@@ -34,7 +35,7 @@ public class ReservationPageService {
                 throw new RuntimeException(
                         String.format("Specified Room Type = '%s' Does Not Exist/Not Available!", roomType.getValue()));
         }
-        log.info("Verifying initial PageLoad...");
+        log.info("Verifying initial Reservation Page PageLoad...");
         new ReservationPage(driver)
                 .performVerifyInitialLoad(driver);
     }
@@ -43,6 +44,7 @@ public class ReservationPageService {
      * Selects Available Desired dates from the Room Reservation page
      *
      * @param driver
+     * @param stayDetails: stayDetails object containing all client/room info
      */
     public void stepReserveAvailableDates(WebDriver driver, StayDetails stayDetails) {
         log.info("Selecting Check-In & Check-Out Dates...");
@@ -55,7 +57,7 @@ public class ReservationPageService {
      * Enters provided User Details and Confirms booking
      *
      * @param driver
-     * @param stayDetails
+     * @param stayDetails: stayDetails object containing all client/room info
      */
     public void stepEnterUserDetailsAndSubmit(WebDriver driver, StayDetails stayDetails) {
         log.info("Entering User Details and Submitting Booking...");

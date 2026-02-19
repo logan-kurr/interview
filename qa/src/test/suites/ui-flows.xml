@@ -1,9 +1,31 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite verbose="1" name="Booking UI Flows Suite" parallel="classes" thread-count="1">
 
-    <test name="Full Booking Flow">
+    <!--  Tests Booking w/ Varying Rooms  -->
+    <test name="SINGLE ROOM | Full Booking Flow">
         <classes>
             <class name="test.tests.uiTests.FullBookingFlow"/>
+        </classes>
+    </test>
+
+    <test name="DOUBLE ROOM | Full Booking Flow">
+        <parameter name="roomType" value="DOUBLE"/>
+        <classes>
+            <class name="test.tests.uiTests.FullBookingFlow"/>
+        </classes>
+    </test>
+
+    <test name="SUITE ROOM | Full Booking Flow">
+        <parameter name="roomType" value="SUITE"/>
+        <classes>
+            <class name="test.tests.uiTests.FullBookingFlow"/>
+        </classes>
+    </test>
+
+    <!--  Tests Contact Section Functionality  -->
+    <test name="Contact Functionality Flow">
+        <classes>
+            <class name="test.tests.uiTests.ContactFlow"/>
         </classes>
     </test>
 </suite>

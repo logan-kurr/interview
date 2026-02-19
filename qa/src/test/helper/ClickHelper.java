@@ -13,6 +13,18 @@ public class ClickHelper {
     private static final Logger log = LoggerFactory.getLogger(ClickHelper.class.getSimpleName());
 
     /**
+     * Reusable method for Clearing Field and entering values
+     * @param driver
+     * @param element
+     * @param value
+     */
+    public static void clearAndSendKeys(WebDriver driver, WebElement element, String value) {
+        ClickHelper.click(driver, element);
+        element.clear();
+        element.sendKeys(value);
+    }
+
+    /**
      * Wait for element to be clickable and click on it
      *
      * @param driver

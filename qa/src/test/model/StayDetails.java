@@ -2,7 +2,9 @@ package test.model;
 
 import org.apache.commons.lang3.StringUtils;
 
-
+/**
+ * Object containing all necessary Room/Stay Details
+ */
 public class StayDetails {
 
     private RoomType roomType;

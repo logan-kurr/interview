@@ -27,6 +27,19 @@ public class HomePageService {
     }
 
     /**
+     * Navigates to Shady Meadows Homepage and verifies Contact Functionality
+     *
+     * @param driver
+     */
+    public void stepVerifyAndSubmitContactSection(WebDriver driver, String name, String email, String phone, String subject, String message) {
+        log.info("Verifying Contact section functionality...");
+        new HomePage(driver)
+                .performClickContactLink(driver)
+                .performSubmitContactDetails(driver, name, email, phone, subject, message)
+                .performVerifyContactConfirmation(driver, name, subject);
+    }
+
+    /**
      * Clicks the Specified Room Types's "Book Now" button
      *
      * @param driver

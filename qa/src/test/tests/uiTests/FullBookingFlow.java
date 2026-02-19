@@ -14,8 +14,6 @@ public class FullBookingFlow  {
     private final HomePageService homePageService = new HomePageService();
     private final ReservationPageService reservationPageService = new ReservationPageService();
 
-    private final String ROOM_TYPE = "SINGLE";
-
     private final String CHECK_IN_DATE = "2026-03-27";
     private final String CHECK_OUT_DATE = "2026-03-28";
 
@@ -28,13 +26,13 @@ public class FullBookingFlow  {
     private WebDriver driver;
 
     @BeforeClass(description = "Driver Startup")
-    public void startUp() {
+    public void startUp(@Optional("SINGLE") String roomType) {
         // spins up new WebDriver
         WebDriverManager.chromedriver().setup();
         driver  = new ChromeDriver();
 
         // generate stayDetails obj
-        stayDetails = new StayDetails(StayDetails.RoomType.valueOf(ROOM_TYPE), CHECK_IN_DATE,
+        stayDetails = new StayDetails(StayDetails.RoomType.valueOf(roomType), CHECK_IN_DATE,
                 CHECK_OUT_DATE, FIRST_NAME, LAST_NAME, EMAIL, PHONE);
     }
 
